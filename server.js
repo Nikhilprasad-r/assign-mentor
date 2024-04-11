@@ -1,27 +1,20 @@
+// Import necessary modules
 import express from "express";
-import cors from "cors";
-import { config } from "dotenv";
-import { dbConnect } from "./shared/db";
-import studentRoute from "./routes/student";
-import mentorRoute from "./routes/mentor";
-import assignMentorToStudent from "./routes/assignMentorToStudent";
+import { connectToDB } from "./db.js";
+import { mentorRouter } from "./mentor.js";
+import { studentRouter } from "./student.js";
 
-config();
-
+// Create Express app
 const app = express();
-const PORT = process.env.PORT || 3000;
-
-app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 
-app.get("/", (req, res) => res.send("Working fine..."));
+// Connect to MongoDB
+connectToDB();
 
-app.use("/student", studentRoute);
-app.use("/mentor", mentorRoute);
-app.use("/assignmentor", assignMentorToStudent);
+// Use Mentor and Student routers
+app.use("/mentors", mentorRouter);
+app.use("/students", studentRouter);
 
-app.listen(PORT, async () => {
-  await dbConnect();
-  console.log(`Server started on port ${PORT}`);
-});
+// Start the server
+const port = process.env.PORT || 8000;
+app.listen(port, () => console.log(`Server running on port ${port}`));
