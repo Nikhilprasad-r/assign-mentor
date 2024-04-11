@@ -6,7 +6,6 @@ const router = express.Router();
 const objId = mongoose.Types.ObjectId;
 
 router.post("/newMentor", async (req, res) => {
-  console.log("assignMentorToStudent");
   try {
     const mentorData = await mentor.findById(req.body.mentorId);
     mentorData.studentsAssigned.push(...req.body.studentsArray);
@@ -21,14 +20,13 @@ router.post("/newMentor", async (req, res) => {
     );
 
     res.send("Mentor Added to Students and updated in mentor document too");
-  } catch (e) {
-    console.log(e, "error in assignmentor route");
-    res.status(400).send("error");
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(400).send("Bad Request");
   }
 });
 
 router.post("/modifyMentor", async (req, res) => {
-  console.log("Select One Student and Assign one Mentor");
   try {
     const stud = await student.findById(req.body.studentId);
     const oldMentorId = stud.mentorAssigned;
@@ -53,9 +51,9 @@ router.post("/modifyMentor", async (req, res) => {
     res.send(
       "Updated mentor to respective student, updated in old mentor and new mentor studentsAssigned list"
     );
-  } catch (e) {
-    console.log(e, "error");
-    res.status(500).send("error in all students for 1 mentor");
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
 

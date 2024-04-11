@@ -1,9 +1,12 @@
 import express from "express";
 import cors from "cors";
+import { config } from "dotenv";
 import { dbConnect } from "./shared/db";
 import studentRoute from "./routes/student";
 import mentorRoute from "./routes/mentor";
-import assignMentorToStudent from "./routes/assignMentortoStudent";
+import assignMentorToStudent from "./routes/assignMentorToStudent";
+
+config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,9 +15,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.get("/", (req, res) => {
-  res.send("Working fine...");
-});
+app.get("/", (req, res) => res.send("Working fine..."));
 
 app.use("/student", studentRoute);
 app.use("/mentor", mentorRoute);
