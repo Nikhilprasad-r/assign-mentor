@@ -1,7 +1,7 @@
 {
   "name": "zen",
   "version": "1.0.0",
-  "main": "app.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
     "start": "node --env-file=.env server.js",
